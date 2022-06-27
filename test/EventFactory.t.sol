@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
+import "forge-std/console2.sol";
 import "../contracts/EventFactory.sol";
 import "../contracts/Event.sol";
 
@@ -27,6 +28,10 @@ contract EventFactoryTest is Test {
         Event e = Event(eventItem);
         assertEq(factory.getDeployedEvents().length, 1);
         assertEq(e.manager(), jon);
+
+        assertTrue(e.getTotalTicketTypes() == 6);
+
+        console2.log(e.balanceOf(jon, 1));
         
     }
 }

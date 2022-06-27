@@ -23,8 +23,18 @@ contract Event is ERC1155, Ownable {
         _setURI(newuri);
     }
 
+    function addTicket(string memory name, uint256 amount) public onlyOwner {
+        _tokenIds.increment();
+        uint256 newTokenId = _tokenIds.current();
+        _mint(manager, newTokenId, amount, "");
+    }
+
+    function getTotalTicketTypes() public returns(uint256) {
+        return _tokenIds.current();
+    }
+
     function sweep() public onlyOwner {
         uint256 _balance = address(this).balance;
-        payable(owner()).transfer(_balance);
+        payable(manager).transfer(_balance);
     }
 }
