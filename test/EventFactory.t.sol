@@ -13,6 +13,8 @@ contract EventFactoryTest is Test {
     uint256[] amounts;
     string uri;
     address jon;
+    address brent;
+
     function setUp() public {
         factory = new EventFactory();
         tickets = ["one", "two", "three", "four", "five", "six"];
@@ -24,8 +26,6 @@ contract EventFactoryTest is Test {
 
     function test_deployFactory() public {
         vm.prank(jon);
-
-        // Test creating 1 event.
         factory.createEvent(tickets, amounts, uri);
         eventItem = factory.getDeployedEvents()[0];
 
@@ -34,15 +34,26 @@ contract EventFactoryTest is Test {
         assertEq(e.manager(), jon);
         assertTrue(e.getTotalTicketTypes() == 6);
         console2.log(e.balanceOf(jon, 1));
+    }
 
+    function test_hasTicket() public {
+        // Create an event.
+        vm.prank(jon);
+        factory.createEvent(tickets, amounts, uri);
+        eventItem = factory.getDeployedEvents()[0];
+        Event e = Event(eventItem);
 
-        // Test a user buying a ticket.
+        // Check for Ticket #2.
+        assertTrue(factory.hasTicket(brent, 0) == -1);
+
+        // Buy a ticket.
+        vm.prank(jon);
         e.safeTransferFrom(jon, brent, 2, 1, "0x0");
         assertTrue(e.balanceOf(brent, 2) == 1);
         assertTrue(e.balanceOf(jon, 2) == 99);
 
-
-        // Test checking for ticket.
-        factory.hasTicket(user, 0);
+        // Check for Ticket #2.
+        assertTrue(e.hasTicket(brent) == 2);
+        assertTrue(factory.hasTicket(brent, 0) == 2);
     }
 }
