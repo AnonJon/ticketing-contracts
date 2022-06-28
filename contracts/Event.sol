@@ -29,6 +29,15 @@ contract Event is ERC1155, Ownable {
         _mint(manager, newTokenId, amount, "");
     }
 
+    function hasTicket(address user) {
+        for (uint256 i = 0; i < _tokenIds; i++) {
+            if (balanceOf(user, i) > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     function getTotalTicketTypes() public returns(uint256) {
         return _tokenIds.current();
     }
