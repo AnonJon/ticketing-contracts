@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
@@ -13,9 +13,9 @@ contract EventFactory {
         manager = creator;
     }
 
-    function createEvent(string[] memory tickets, uint256[] memory amounts, string memory uri) public {
+    function createEvent(string[] memory tickets, uint256[] memory amounts, string memory uri, uint256[] memory costs) public {
         //deploys events and returns address
-        address newEvent = address(new Event(msg.sender, tickets, amounts, uri));
+        address newEvent = address(new Event(msg.sender, tickets, amounts, uri, costs));
         deployedEvents.push(newEvent);
     }
 
