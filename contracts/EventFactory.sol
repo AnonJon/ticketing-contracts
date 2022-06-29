@@ -1,10 +1,17 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "@openzeppelin/contracts/access/AccessControl.sol";
+
 import {Event} from "./Event.sol";
 
 contract EventFactory {
     address[] public deployedEvents;
+    address public manager;
+
+    constructor(address creator) {
+        manager = creator;
+    }
 
     function createEvent(string[] memory tickets, uint256[] memory amounts, string memory uri) public {
         //deploys events and returns address
@@ -19,6 +26,12 @@ contract EventFactory {
         Event deployedEvent = Event(deployedEvents[eventId]);
 
         return deployedEvent.hasTicket(user);
+    }
+
+    function transferTicket(uint256 eventId, address to, uint256 token, uint256 amount) public {
+        Event deployedEvent = Event(deployedEvents[eventId]);
+
+        deployedEvent.transferTicket(manager, to, token, amount);
     }
 
     function getDeployedEvents() public view returns (address[] memory) {

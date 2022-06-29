@@ -38,6 +38,17 @@ contract Event is ERC1155, Ownable {
         return -1;
     }
 
+    // Need to figure out permissions, avoid people minting all tickets!
+    function transferTicket(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount
+    ) public {
+        _safeTransferFrom(from, to, id, amount, "0x0");
+
+    }
+
     function getTotalTicketTypes() public returns(uint256) {
         return _tokenIds.current();
     }

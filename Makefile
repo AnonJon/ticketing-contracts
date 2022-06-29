@@ -6,6 +6,11 @@ install:
 deploy:
 	forge create EventFactory --private-key ${PRIVATE_KEY} --verify --rpc-url ${RINKEBY_RPC_URL} --etherscan-api-key ${ETHERSCAN_KEY}
 
+# using --legacy because of a bug in deploying to polygon mainnet
+# (https://github.com/foundry-rs/foundry/issues/1703)
+deploy-no-verify:
+	forge create EventFactory --private-key ${PRIVATE_KEY} --rpc-url ${RPC_URL} --legacy
+
 script:
 	forge script scripts/EventFactory.s.sol:EventFactory --rpc-url ${RINKEBY_RPC_URL}  --private-key ${PRIVATE_KEY} --broadcast --verify --etherscan-api-key ${ETHERSCAN_KEY} -vvvv
 
