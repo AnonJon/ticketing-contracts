@@ -23,8 +23,9 @@ contract EventFactoryTest is Test {
         tickets = ["one", "two", "three", "four", "five", "six"];
         amounts = [5, 100, 100, 100, 100, 100];
         uri = "http://localhost:8080";
-        jon = address(0xa0Ee7A142d267C1f36714E4a8F75612F20a79720);
         costs = [5, 100, 100, 100, 100, 100];
+
+        factory = new EventFactory(jon);
     }
 
     function test_deployFactory() public {
@@ -42,7 +43,7 @@ contract EventFactoryTest is Test {
     function test_hasTicket() public {
         // Create an event.
         vm.prank(jon);
-        factory.createEvent(tickets, amounts, uri);
+        factory.createEvent(tickets, amounts, uri, costs);
         eventItem = factory.getDeployedEvents()[0];
         Event e = Event(eventItem);
 

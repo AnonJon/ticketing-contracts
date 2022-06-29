@@ -15,7 +15,7 @@ contract EventFactoryUpgradeTest is Test {
     address admin;
     function setUp() public {
         proxy = new Proxy();
-        impl = new EventFactory();
+        impl = new EventFactory(address(69));
         admin = vm.addr(69);
     }
 
@@ -38,7 +38,7 @@ contract EventFactoryUpgradeTest is Test {
 
     function testUpgradeUUPS() public {
         testDeployUUPS();
-        EventFactory newImpl = new EventFactory();
+        EventFactory newImpl = new EventFactory(address(69));
         /// Since the admin is an EOA, it doesn't have an owner
         proxy.upgrade(address(newImpl), admin, address(0));
         bytes32 implSlot = bytes32(
