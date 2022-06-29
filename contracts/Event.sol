@@ -29,6 +29,26 @@ contract Event is ERC1155, Ownable {
         _mint(manager, newTokenId, amount, "");
     }
 
+    function hasTicket(address user) public view returns (int256) {
+        for (int256 i = 0; i < int256(_tokenIds.current()); i++) {
+            if (balanceOf(user, uint256(i)) > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Need to figure out permissions, avoid people minting all tickets!
+    function transferTicket(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount
+    ) public {
+        _safeTransferFrom(from, to, id, amount, "0x0");
+
+    }
+
     function getTotalTicketTypes() public returns(uint256) {
         return _tokenIds.current();
     }
