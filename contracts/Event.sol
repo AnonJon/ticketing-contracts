@@ -11,6 +11,7 @@ contract Event is ERC1155, Ownable {
     Counters.Counter private _tokenIds;
 
     mapping(uint256 => uint256) ticket_prices;
+    mapping(address => bool) public hasBought;
 
     constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri, uint256[] memory prices) ERC1155(_uri) {
         manager = creator;
@@ -39,6 +40,14 @@ contract Event is ERC1155, Ownable {
             }
         }
         return -1;
+    }
+
+    function buyTicket(uint256 ticket, uint256 amount) external payable {
+        require(balanceOf(manager, ticket) >= amount, "Not enough tickets left!");
+        require(msg.value >= ticket_prices[ticket] * amount, "Not enough to buy tickets!");
+
+        _safeTransferFrom(manager, msg.sender, ticket, amount, "0x0");
+
     }
 
     // Need to figure out permissions, avoid people minting all tickets!

@@ -23,7 +23,7 @@ contract EventFactoryTest is Test {
         tickets = ["one", "two", "three", "four", "five", "six"];
         amounts = [5, 100, 100, 100, 100, 100];
         uri = "http://localhost:8080";
-        costs = [5, 100, 100, 100, 100, 100];
+        costs = [1000000000000000000, 1000000000000000000, 1000000000000000000, 1000000000000000000, 1000000000000000000, 1000000000000000000];
 
         factory = new EventFactory(jon);
     }
@@ -69,5 +69,19 @@ contract EventFactoryTest is Test {
         // Check for Ticket #2.
         assertTrue(e.hasTicket(brent) == 2);
         assertTrue(factory.hasTicket(brent, 0) == 2);
+    }
+
+    function test_buyTicket() public {
+        vm.prank(jon);
+        factory.createEvent(tickets, amounts, uri, costs);
+        eventItem = factory.getDeployedEvents()[0];
+        Event e = Event(eventItem);
+        vm.prank(brent);
+        vm.deal(brent, 3000000000000000000);
+        e.buyTicket{value: uint(1000000000000000000) }(1, 1);
+
+        // test for not enough payment sent
+        vm.expectRevert(bytes("Not enough tickets left!"));
+        e.buyTicket{value: uint(1000000000000000000) }(1, 5);
     }
 }
