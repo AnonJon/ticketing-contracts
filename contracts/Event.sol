@@ -12,7 +12,7 @@ contract Event is ERC1155, Ownable {
 
     mapping(uint256 => uint256) ticket_prices;
 
-    constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri []uint256 prices) ERC1155(_uri) {
+    constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri, uint256[] memory prices) ERC1155(_uri) {
         manager = creator;
         for (uint256 i = 0; i < tickets.length; i++) {
              _tokenIds.increment();

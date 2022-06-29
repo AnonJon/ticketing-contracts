@@ -11,6 +11,7 @@ contract EventFactoryTest is Test {
     address eventItem;
     string[] tickets;
     uint256[] amounts;
+    uint256[] costs;
     string uri;
     address jon;
     address brent;
@@ -22,14 +23,13 @@ contract EventFactoryTest is Test {
         tickets = ["one", "two", "three", "four", "five", "six"];
         amounts = [5, 100, 100, 100, 100, 100];
         uri = "http://localhost:8080";
-
-        factory = new EventFactory(jon);
+        jon = address(0xa0Ee7A142d267C1f36714E4a8F75612F20a79720);
+        costs = [5, 100, 100, 100, 100, 100];
     }
 
     function test_deployFactory() public {
         vm.prank(jon);
-        factory.createEvent(tickets, amounts, uri);
-        assertEq(factory.manager(), jon);
+        factory.createEvent(tickets, amounts, uri, costs);
         eventItem = factory.getDeployedEvents()[0];
 
         Event e = Event(eventItem);
