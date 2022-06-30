@@ -84,4 +84,21 @@ contract EventFactoryTest is Test {
         vm.expectRevert(bytes("Not enough tickets left!"));
         e.buyTicket{value: uint(1000000000000000000) }(1, 5);
     }
+
+    function test_withdrawFunds() public {
+        vm.prank(jon);
+        factory.createEvent(tickets, amounts, uri, costs);
+        eventItem = factory.getDeployedEvents()[0];
+        Event e = Event(eventItem);
+        vm.prank(brent);
+        vm.deal(brent, 3000000000000000000);
+        e.buyTicket{value: uint(1000000000000000000) }(1, 1);
+
+       // test withdraw
+        vm.prank(brent);
+        vm.expectRevert(bytes("Ownable: caller is not the owner"));
+        e.sweep();
+        vm.prank(jon);
+        e.sweep();
+    }
 }
