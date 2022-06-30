@@ -4,7 +4,7 @@ install:
 	forge install Openzeppelin/openzeppelin-contracts foundry-rs/forge-std --no-commit
 
 deploy:
-	forge create EventFactory --private-key ${PRIVATE_KEY} --verify --rpc-url ${RINKEBY_RPC_URL} --etherscan-api-key ${ETHERSCAN_KEY}
+	forge create EventFactory --private-key ${PRIVATE_KEY} --verify --rpc-url ${RINKEBY_RPC_URL} --constructor-args ${OWNER} --etherscan-api-key ${ETHERSCAN_KEY}
 
 # using --legacy because of a bug in deploying to polygon mainnet
 # (https://github.com/foundry-rs/foundry/issues/1703)

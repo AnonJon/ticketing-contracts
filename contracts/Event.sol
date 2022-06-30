@@ -15,6 +15,7 @@ contract Event is ERC1155, Ownable {
 
     constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri, uint256[] memory prices) ERC1155(_uri) {
         manager = creator;
+        transferOwnership(manager);
         for (uint256 i = 0; i < tickets.length; i++) {
              _tokenIds.increment();
              uint256 newTokenId = _tokenIds.current();
@@ -69,4 +70,5 @@ contract Event is ERC1155, Ownable {
         uint256 _balance = address(this).balance;
         payable(manager).transfer(_balance);
     }
+
 }
