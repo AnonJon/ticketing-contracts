@@ -72,4 +72,21 @@ contract EventFactoryUpgradeTest is Test {
         }
         assertEq(addr, beaconTester.beaconAddress());
     }
+
+    function testDeployTransparent() public {
+        proxy.setType("transparent");
+        proxyAddress = proxy.deploy(address(impl), admin);
+        assertEq(proxyAddress, proxy.proxyAddress());
+        assertEq(proxyAddress, address(proxy.transparent()));
+        bytes32 implSlot = bytes32(
+            uint256(keccak256("eip1967.proxy.implementation")) - 1
+        );
+        bytes32 proxySlot = vm.load(proxyAddress, implSlot);
+        address addr;
+        assembly {
+            mstore(0, proxySlot)
+            addr := mload(0)
+        }
+        assertEq(address(impl), addr);
+    }
 }
