@@ -12,6 +12,11 @@ contract EventFactoryTest is Test {
     string[] tickets;
     uint256[] amounts;
     uint256[] costs;
+    string name;
+    string description;
+    uint256 start;
+    uint256 finish;
+    string location;
     string uri;
     address jon;
     address brent;
@@ -25,12 +30,18 @@ contract EventFactoryTest is Test {
         uri = "http://localhost:8080";
         costs = [1000000000000000000, 1000000000000000000, 1000000000000000000, 1000000000000000000, 1000000000000000000, 1000000000000000000];
 
+        name = "";
+        description = "";
+        start = 34534535;
+        finish = 34535345;
+        location = "";
         factory = new EventFactory(jon);
     }
 
     function test_deployFactory() public {
         vm.prank(jon);
-        factory.createEvent(tickets, amounts, uri, costs);
+        factory.createEvent(tickets, amounts, uri, costs, name, description, start, finish, location);
+
         eventItem = factory.getDeployedEvents()[0];
 
         Event e = Event(eventItem);
@@ -43,7 +54,7 @@ contract EventFactoryTest is Test {
     function test_hasTicket() public {
         // Create an event.
         vm.prank(jon);
-        factory.createEvent(tickets, amounts, uri, costs);
+        factory.createEvent(tickets, amounts, uri, costs, name, description, start, finish, location);
         eventItem = factory.getDeployedEvents()[0];
         Event e = Event(eventItem);
 
@@ -73,7 +84,8 @@ contract EventFactoryTest is Test {
 
     function test_buyTicket() public {
         vm.prank(jon);
-        factory.createEvent(tickets, amounts, uri, costs);
+        factory.createEvent(tickets, amounts, uri, costs, name, description, start, finish, location);
+
         eventItem = factory.getDeployedEvents()[0];
         Event e = Event(eventItem);
         vm.prank(brent);
@@ -87,7 +99,8 @@ contract EventFactoryTest is Test {
 
     function test_withdrawFunds() public {
         vm.prank(jon);
-        factory.createEvent(tickets, amounts, uri, costs);
+        factory.createEvent(tickets, amounts, uri, costs, name, description, start, finish, location);
+
         eventItem = factory.getDeployedEvents()[0];
         Event e = Event(eventItem);
         vm.prank(brent);
