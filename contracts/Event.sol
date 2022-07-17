@@ -9,12 +9,31 @@ contract Event is ERC1155, Ownable {
     using Counters for Counters.Counter;
     address public manager;
     Counters.Counter private _tokenIds;
+    string public name;
+    string public description;
+    uint256 public start;
+    uint256 public finish;
+    string public location;
 
     mapping(uint256 => uint256) ticket_prices;
     mapping(address => bool) public hasBought;
 
-    constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri, uint256[] memory prices) ERC1155(_uri) {
+    constructor(address creator,
+        string[] memory tickets,
+        uint256[] memory amounts,
+        string memory _uri,
+        uint256[] memory prices,
+        string memory _name,
+        string memory _description,
+        uint256 _start,
+        uint256 _finish,
+        string memory _location) ERC1155(_uri) {
         manager = creator;
+        name = _name;
+        description = _description;
+        start = _start;
+        finish = _finish;
+        location = location;
         transferOwnership(manager);
         for (uint256 i = 0; i < tickets.length; i++) {
              _tokenIds.increment();

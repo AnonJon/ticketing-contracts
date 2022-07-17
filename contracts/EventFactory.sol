@@ -13,9 +13,28 @@ contract EventFactory {
         manager = creator;
     }
 
-    function createEvent(string[] memory tickets, uint256[] memory amounts, string memory uri, uint256[] memory costs) public {
+    function createEvent(
+        string[] memory tickets,
+        uint256[] memory amounts,
+        string memory uri,
+        uint256[] memory costs,
+        string memory _name,
+        string memory _description,
+        uint256 _start,
+        uint256 _finish,
+        string memory _location) public {
         //deploys events and returns address
-        address newEvent = address(new Event(msg.sender, tickets, amounts, uri, costs));
+        address newEvent = address(new Event(
+            msg.sender,
+            tickets,
+            amounts,
+            uri,
+            costs,
+            _name,
+            _description,
+            _start,
+            _finish,
+            _location));
         deployedEvents.push(newEvent);
     }
 
