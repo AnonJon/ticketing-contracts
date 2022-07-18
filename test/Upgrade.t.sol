@@ -5,21 +5,22 @@ import "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 import {Proxy} from "../contracts/utils/Proxy.sol";
 import {EventFactory} from "../contracts/EventFactory.sol";
-
+import {Event} from "../contracts/Event.sol";
 
 contract EventFactoryUpgradeTest is Test {
     Proxy proxy;
-    EventFactory impl;
+    Event impl;
 
     address proxyAddress;
     address admin;
+
     function setUp() public {
         proxy = new Proxy();
-        impl = new EventFactory(address(69));
+        impl = new Event();
         admin = vm.addr(69);
     }
 
-     function testDeployUUPS() public {
+    function testDeployUUPS() public {
         proxy.setType("uups");
         proxyAddress = proxy.deploy(address(impl), admin);
         assertEq(proxyAddress, proxy.proxyAddress());
@@ -38,7 +39,7 @@ contract EventFactoryUpgradeTest is Test {
 
     function testUpgradeUUPS() public {
         testDeployUUPS();
-        EventFactory newImpl = new EventFactory(address(69));
+        Event newImpl = new Event();
         /// Since the admin is an EOA, it doesn't have an owner
         proxy.upgrade(address(newImpl), admin, address(0));
         bytes32 implSlot = bytes32(

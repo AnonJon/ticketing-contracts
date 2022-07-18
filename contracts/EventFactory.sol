@@ -1,53 +1,67 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-
+import "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
+import {EventBeacon} from "./EventBeacon.sol";
 import {Event} from "./Event.sol";
+import {Utils} from "./utils/Utils.sol";
 
-contract EventFactory {
+contract EventFactory is Utils {
     address[] public deployedEvents;
     address public manager;
+    EventBeacon public beacon;
 
-    constructor(address creator) {
+    constructor(address creator, address _initBlueprint) {
         manager = creator;
+        beacon = new EventBeacon(_initBlueprint);
     }
 
     function createEvent(
-        string[] memory tickets,
-        uint256[] memory amounts,
-        string memory uri,
+        string[] calldata tickets,
+        uint256[] calldata amounts,
+        string memory _uri,
         uint256[] memory costs,
-        string memory _name,
-        string memory _description,
-        uint256 _start,
-        uint256 _finish,
-        string memory _location) public {
+        EventDetails calldata details
+    ) external {
         //deploys events and returns address
-        address newEvent = address(new Event(
-            msg.sender,
-            tickets,
-            amounts,
-            uri,
-            costs,
-            _name,
-            _description,
-            _start,
-            _finish,
-            _location));
-        deployedEvents.push(newEvent);
+        BeaconProxy e = new BeaconProxy(
+            address(beacon),
+            abi.encodeWithSelector(
+                Event(address(0)).initialize.selector,
+                address(msg.sender),
+                tickets,
+                amounts,
+                _uri,
+                costs,
+                details
+            )
+        );
+        deployedEvents.push(address(e));
     }
 
     // Returns the first found token type if user has one.  -1 if no tickets.
-    function hasTicket(address user, uint256 eventId) public view returns (int256) {
-        require(user != address(0), "EventFactory: address zero is not a valid owner");
+    function hasTicket(address user, uint256 eventId)
+        public
+        view
+        returns (int256)
+    {
+        require(
+            user != address(0),
+            "EventFactory: address zero is not a valid owner"
+        );
 
         Event deployedEvent = Event(deployedEvents[eventId]);
 
         return deployedEvent.hasTicket(user);
     }
 
-    function transferTicket(uint256 eventId, address to, uint256 token, uint256 amount) public {
+    function transferTicket(
+        uint256 eventId,
+        address to,
+        uint256 token,
+        uint256 amount
+    ) public {
         Event deployedEvent = Event(deployedEvents[eventId]);
 
         deployedEvent.transferTicket(manager, to, token, amount);
