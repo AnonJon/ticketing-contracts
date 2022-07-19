@@ -1,0 +1,6 @@
+{
+  "solc_remaps": [
+    "@openzeppelin=./lib/openzeppelin-contracts",
+    "@openzeppelin-upgrades=./lib/openzeppelin-contracts-upgradeable"
+  ]
+}
