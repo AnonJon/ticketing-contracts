@@ -1,7 +1,7 @@
 -include .env
 
 install:
-	forge install Openzeppelin/openzeppelin-contracts foundry-rs/forge-std --no-commit
+	forge install Openzeppelin/openzeppelin-contracts foundry-rs/forge-std Openzeppelin/openzeppelin-contracts-upgradeable --no-commit
 
 deploy-event:
 	forge create Event --private-key ${PRIVATE_KEY} --verify --rpc-url ${RINKEBY_RPC_URL} --etherscan-api-key ${ETHERSCAN_KEY}
