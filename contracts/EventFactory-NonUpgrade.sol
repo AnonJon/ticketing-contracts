@@ -2,10 +2,10 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import {Event} from "./Event.sol";
+import {Event} from "./Event-NonUpgrade.sol";
 import {Utils} from "./utils/Utils.sol";
 
-contract EventFactory {
+contract EventFactoryNonUpgradeable is Utils {
     address[] public deployedEvents;
     address public manager;
 

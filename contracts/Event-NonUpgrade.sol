@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import {Utils} from "./utils/Utils.sol";
 
-contract Event is ERC1155, Ownable {
+contract Event is ERC1155, Ownable, Utils {
     using Counters for Counters.Counter;
     address public manager;
     Counters.Counter private _tokenIds;
@@ -16,7 +16,10 @@ contract Event is ERC1155, Ownable {
     uint256 public finish;
     string public location;
 
-    constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri, uint256[] memory prices, EventDetails calldata details) ERC1155(_uri) {
+    mapping(uint256 => uint256) ticket_prices;
+    mapping(address => bool) public hasBought;
+
+    constructor(address creator, string[] memory tickets, uint256[] memory amounts, string memory _uri, uint256[] memory prices, EventDetails memory details) ERC1155(_uri) {
        manager = creator;
         name = details._name;
         description = details._description;
