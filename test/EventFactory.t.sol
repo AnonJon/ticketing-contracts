@@ -18,6 +18,7 @@ contract EventFactoryTest is Test, Utils {
     uint256 start;
     uint256 finish;
     string location;
+    string host;
     string uri;
     address jon;
     address brent;
@@ -45,7 +46,8 @@ contract EventFactoryTest is Test, Utils {
         start = 34534535;
         finish = 34535345;
         location = "";
-        details = EventDetails(name, description, location, start, finish);
+        host = "";
+        details = EventDetails(name, description, location, start, finish, host);
         Event bluePrint = new Event();
         factory = new EventFactory(jon, address(bluePrint));
     }
@@ -72,7 +74,7 @@ contract EventFactoryTest is Test, Utils {
             amounts,
             uri,
             costs,
-            EventDetails(name, description, location, start, finish)
+            EventDetails(name, description, location, start, finish, host)
         );
         eventItem = factory.getDeployedEvents()[0];
         Event e = Event(eventItem);
@@ -108,7 +110,7 @@ contract EventFactoryTest is Test, Utils {
             amounts,
             uri,
             costs,
-            EventDetails(name, description, location, start, finish)
+            EventDetails(name, description, location, start, finish, host)
         );
 
         eventItem = factory.getDeployedEvents()[0];
@@ -129,7 +131,7 @@ contract EventFactoryTest is Test, Utils {
             amounts,
             uri,
             costs,
-            EventDetails(name, description, location, start, finish)
+            EventDetails(name, description, location, start, finish, host)
         );
 
         eventItem = factory.getDeployedEvents()[0];

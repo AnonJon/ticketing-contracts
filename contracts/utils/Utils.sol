@@ -8,5 +8,6 @@ contract Utils {
         string _location;
         uint256 _start;
         uint256 _end;
+        string _host;
     }
 }

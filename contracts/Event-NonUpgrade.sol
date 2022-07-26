@@ -15,6 +15,7 @@ contract Event is ERC1155, Ownable, Utils {
     uint256 public start;
     uint256 public finish;
     string public location;
+    string public host;
 
     mapping(uint256 => uint256) ticket_prices;
     mapping(address => bool) public hasBought;
@@ -26,6 +27,7 @@ contract Event is ERC1155, Ownable, Utils {
         location = details._location;
         start = details._start;
         finish = details._end;
+        host = details._host;
         transferOwnership(manager);
         for (uint256 i = 0; i < tickets.length; i++) {
             _tokenIds.increment();
@@ -46,7 +48,7 @@ contract Event is ERC1155, Ownable, Utils {
     }
 
     function hasTicket(address user) public view returns (int256) {
-        for (int256 i = 0; i < int256(_tokenIds.current()); i++) {
+        for (int256 i = 0; i <= int256(_tokenIds.current()); i++) {
             if (balanceOf(user, uint256(i)) > 0) {
                 return i;
             }

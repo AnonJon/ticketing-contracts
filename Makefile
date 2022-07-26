@@ -4,11 +4,11 @@ install:
 	forge install Openzeppelin/openzeppelin-contracts foundry-rs/forge-std Openzeppelin/openzeppelin-contracts-upgradeable --no-commit
 
 deploy-event:
-	forge create Event --private-key ${PRIVATE_KEY} --verify --rpc-url ${RINKEBY_RPC_URL} --etherscan-api-key ${ETHERSCAN_KEY}
+	forge create Event --private-key ${PRIVATE_KEY} --verify --rpc-url ${RPC_URL} --etherscan-api-key ${ETHERSCAN_KEY} --legacy
 
 # event blueprint is the address from the previously deployed event
 deploy-factory:
-	forge create EventFactoryNonUpgradeable --private-key ${PRIVATE_KEY} --verify --rpc-url ${RINKEBY_RPC_URL} --constructor-args ${OWNER} --etherscan-api-key ${ETHERSCAN_KEY}
+	forge create EventFactoryNonUpgradeable --private-key ${PRIVATE_KEY} --verify --rpc-url ${RPC_URL} --constructor-args ${OWNER} --etherscan-api-key ${ETHERSCAN_KEY} --legacy
 
 # using --legacy because of a bug in deploying to polygon mainnet
 # (https://github.com/foundry-rs/foundry/issues/1703)
