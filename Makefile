@@ -13,7 +13,7 @@ deploy-factory:
 # using --legacy because of a bug in deploying to polygon mainnet
 # (https://github.com/foundry-rs/foundry/issues/1703)
 deploy-no-verify:
-	forge create EventFactory --private-key ${PRIVATE_KEY} --rpc-url ${RPC_URL} --legacy
+	forge create EventFactoryNonUpgradeable --private-key ${PRIVATE_KEY} --rpc-url ${RPC_URL} --constructor-args ${OWNER} --legacy
 
 script:
 	forge script scripts/Upgrade.s.sol:EventBeacon --rpc-url ${RINKEBY_RPC_URL}  --private-key ${PRIVATE_KEY} --broadcast --verify --etherscan-api-key ${ETHERSCAN_KEY} -vvvv

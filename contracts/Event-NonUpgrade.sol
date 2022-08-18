@@ -16,6 +16,7 @@ contract Event is ERC1155, Ownable, Utils {
     uint256 public finish;
     string public location;
     string public host;
+    string public thumbnail;
 
     mapping(uint256 => uint256) ticket_prices;
     mapping(address => bool) public hasBought;
@@ -28,6 +29,7 @@ contract Event is ERC1155, Ownable, Utils {
         start = details._start;
         finish = details._end;
         host = details._host;
+        thumbnail = details._thumbnail;
         transferOwnership(manager);
         for (uint256 i = 0; i < tickets.length; i++) {
             _tokenIds.increment();

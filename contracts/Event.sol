@@ -16,6 +16,7 @@ contract Event is Initializable, ERC1155Upgradeable, OwnableUpgradeable, Utils {
     uint256 public start;
     uint256 public finish;
     string public location;
+    string public thumbnail;
 
     mapping(uint256 => uint256) ticket_prices;
     mapping(address => bool) public hasBought;
@@ -41,6 +42,7 @@ contract Event is Initializable, ERC1155Upgradeable, OwnableUpgradeable, Utils {
         location = details._location;
         start = details._start;
         finish = details._end;
+        thumbnail = details._thumbnail;
         transferOwnership(manager);
         for (uint256 i = 0; i < tickets.length; i++) {
             _tokenIds.increment();

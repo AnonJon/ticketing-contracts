@@ -37,6 +37,7 @@ contract EventFactory is Utils {
                 details
             )
         );
+
         deployedEvents.push(address(e));
     }
 

@@ -9,5 +9,6 @@ contract Utils {
         uint256 _start;
         uint256 _end;
         string _host;
+        string _thumbnail;
     }
 }
